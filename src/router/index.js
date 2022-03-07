@@ -11,7 +11,7 @@ const routes = [
   {
     path: '/',
     component: () => import(/* webpackChunkName: 'layout' */'@/views/layout/index'),
-    chlidren: [
+    children: [
       {
         path: '',
         name: 'home',
