@@ -12,6 +12,7 @@
         </el-table-column>
         <el-table-column prop="name" label="菜单名称"> </el-table-column>
         <el-table-column prop="level" label="菜单级数"> </el-table-column>
+        <!-- <el-table-column prop="href" label="路径"> </el-table-column> -->
         <el-table-column prop="icon" label="前端图标"> </el-table-column>
         <el-table-column prop="orderNum" label="排序"> </el-table-column>
         <el-table-column label="操作" width="180">
@@ -39,6 +40,7 @@ export default {
     }
   },
   created () {
+    // 显示table里面菜单内容
     this.loadAllMenu()
   },
   methods: {
@@ -66,9 +68,12 @@ export default {
         })
     },
     // 编辑菜单
-    handleEdit () {
+    handleEdit (rowData) {
       this.$router.push({
-        name: 'menu-edit'
+        name: 'menu-edit',
+        params: {
+          id: rowData.id
+        }
       })
     },
     // 获取菜单列表所有信息

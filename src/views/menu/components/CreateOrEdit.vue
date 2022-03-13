@@ -71,6 +71,7 @@ export default {
         description: '',
         shown: false
       },
+      // 存储上级菜单信息
       parentMenuList: []
     }
   },
@@ -91,9 +92,16 @@ export default {
     },
     // 加载上级菜单信息方法
     async loadInfo () {
-      const { data } = await getMenuInfo()
+      // 检测路由是否存在id
+      const id = this.$route.params.id || -1
+      // 请求上一级菜单
+      const { data } = await getMenuInfo(id)
       if (data.code === '000000') {
         this.parentMenuList = data.data.parentMenuList
+        // 检测菜单数据是否存在menuInfo,如果有将数据传给form
+        if (data.data.menuInfo) {
+          this.form = data.data.menuInfo
+        }
       }
     }
   }
