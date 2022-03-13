@@ -1,0 +1,103 @@
+<template>
+  <div class="create-or-edit">
+    <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <span>{{ isEdit ? "编辑菜单" : "添加菜单" }}</span>
+      </div>
+      <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="菜单名称">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="菜单路径">
+          <el-input v-model="form.href"></el-input>
+        </el-form-item>
+        <el-form-item label="上级菜单">
+          <el-select v-model="form.region" placeholder="请选择活动区域">
+            <!-- ⽆上级菜单选项 -->
+            <el-option :value="-1" label="⽆上级菜单"></el-option>
+            <el-option
+              v-for="item in parentMenuList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="描述">
+          <el-input v-model="form.description"></el-input>
+        </el-form-item>
+        <el-form-item label="前端图标">
+          <el-input v-model="form.icon"></el-input>
+        </el-form-item>
+        <el-form-item label="是否显示">
+          <el-radio-group v-model="form.shown">
+            <el-radio :label="true">是</el-radio>
+            <el-radio :label="false">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="排序">
+          <el-input-number
+            v-model="form.orderNum"
+            label="描述⽂字"
+          ></el-input-number>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">提交</el-button>
+          <el-button>重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
+  </div>
+</template>
+<script>
+import { getMenuInfo, crerateMenu } from '@/services/menu'
+export default {
+  name: 'CreateOrEdit',
+  // 接收父组件传值，判断是添加还是编辑
+  props: {
+    isEdit: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data () {
+    return {
+      form: {
+        parentId: -1,
+        name: '',
+        href: '',
+        icon: '',
+        orderNum: 0,
+        description: '',
+        shown: false
+      },
+      parentMenuList: []
+    }
+  },
+  created () {
+    // 加载上一级菜单信息
+    this.loadInfo()
+  },
+  methods: {
+    async onSubmit () {
+      const { data } = await crerateMenu(this.form)
+      if (data.code === '000000') {
+        this.$message.success('提交成功')
+        //  添加完成数据，跳转回菜单页面
+        this.$router.push({
+          name: 'menu'
+        })
+      }
+    },
+    // 加载上级菜单信息方法
+    async loadInfo () {
+      const { data } = await getMenuInfo()
+      if (data.code === '000000') {
+        this.parentMenuList = data.data.parentMenuList
+      }
+    }
+  }
+}
+</script>
+<style lang="scss">
+</style>

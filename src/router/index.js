@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// 引入store文件
+import store from '@/store'
 Vue.use(VueRouter)
 // 定义路由规则
 const routes = [
@@ -11,6 +13,8 @@ const routes = [
   {
     path: '/',
     component: () => import(/* webpackChunkName: 'layout' */'@/views/layout/index'),
+    // 这个属性是验证有没有登录
+    meta: { requiresAuth: true },
     children: [
       {
         path: '',
@@ -26,6 +30,16 @@ const routes = [
         path: '/menu',
         name: 'menu',
         component: () => import(/* webpackChunkName: 'menu' */'@/views/menu/index')
+      },
+      {
+        path: '/menu/create-meun',
+        name: 'create-menu',
+        component: () => import(/* webpackChunkName: 'menu' */'@/views/menu/create')
+      },
+      {
+        path: '/menu/:id/edit',
+        name: 'menu-edit',
+        component: () => import(/* webpackChunkName: 'menu' */'@/views/menu/edit')
       },
       {
         path: '/resource',
@@ -62,5 +76,26 @@ const routes = [
 ]
 const router = new VueRouter({
   routes
+})
+// 定义导航守卫
+router.beforeEach((to, from, next) => {
+  // to需要验证身份
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // 通过判断本地用户
+    if (!store.state.user) {
+      // 如果用户没有登录，需要重新登录
+      return next({
+        name: 'login',
+        // 保存我们所在的位置，以便以后再来
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
+    // 登录，则放行
+    next()
+  } else {
+    next() // 确保一定要调用 next()
+  }
 })
 export default router

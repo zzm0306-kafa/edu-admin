@@ -69,12 +69,13 @@ export default {
         this.loadingchecked = false
         // 3.处理响应
         if (data.state === 1) {
-          // 4.通过路由跳转到首页
-          this.$router.push({
-            name: 'home'
-          })
           // 对用户信息存储
           this.$store.commit('setUser', data.content)
+          // 4.通过路由跳转到首页
+          // this.$router.push({
+          //   name: 'home'
+          // })
+          this.$router.push(this.$route.query.redirect || '/')
         } else {
           // 5.登录失败提示
           this.$message.error('登录失败')
