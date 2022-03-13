@@ -4,11 +4,15 @@
       <div slot="header" class="clearfix">
         <span>{{ isEdit ? "编辑菜单" : "添加菜单" }}</span>
       </div>
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="菜单名称">
+      <el-form
+        :rules="rules"
+        ref="form"
+        :model="form"
+        label-width="80px">
+        <el-form-item label="菜单名称" prop="name">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="菜单路径">
+        <el-form-item label="菜单路径" prop="href">
           <el-input v-model="form.href"></el-input>
         </el-form-item>
         <el-form-item label="上级菜单">
@@ -71,6 +75,14 @@ export default {
         description: '',
         shown: false
       },
+      rules: {
+        name: [
+          { required: true, message: '请输入菜单名称', trigger: 'blur' }
+        ],
+        href: [
+          { required: true, message: '请输入路径', trigger: 'blur' }
+        ]
+      },
       // 存储上级菜单信息
       parentMenuList: []
     }
@@ -80,15 +92,31 @@ export default {
     this.loadInfo()
   },
   methods: {
+    // 添加菜单
     async onSubmit () {
-      const { data } = await crerateMenu(this.form)
-      if (data.code === '000000') {
-        this.$message.success('提交成功')
-        //  添加完成数据，跳转回菜单页面
-        this.$router.push({
-          name: 'menu'
-        })
+      try {
+        // 表单名称和路径不能为空
+        await this.$refs.form.validate()
+        // 添加菜单请求
+        const { data } = await crerateMenu(this.form)
+        // 处理响应
+        if (data.code === '000000') {
+          this.$message.success('添加菜单成功')
+          this.$router.push({
+            name: 'menu'
+          })
+        }
+      } catch (err) {
+        this.$message.error('信息不能为空哦')
       }
+      // const { data } = await crerateMenu(this.form)
+      // if (data.code === '000000') {
+      //   this.$message.success('提交成功')
+      //   //  添加完成数据，跳转回菜单页面
+      //   this.$router.push({
+      //     name: 'menu'
+      //   })
+      // }
     },
     // 加载上级菜单信息方法
     async loadInfo () {

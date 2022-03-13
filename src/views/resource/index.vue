@@ -1,11 +1,15 @@
 <template>
   <div class="resource">
-     图片上传
+     <resource-list></resource-list>
   </div>
 </template>
 <script>
+import ResourceList from './components/List'
 export default {
-  name: 'ResourceIndex'
+  name: 'ResourceIndex',
+  components: {
+    ResourceList
+  }
 }
 </script>
 <style lang="scss" scoped></style>
