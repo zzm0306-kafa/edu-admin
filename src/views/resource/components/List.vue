@@ -2,14 +2,20 @@
   <div class="resource-list">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
-          <el-form-item label="审批人">
-            <el-input v-model="formInline.user" placeholder="审批人"></el-input>
+        <el-form :inline="true" :model="form" class="demo-form-inline">
+          <el-form-item label="资源名称">
+            <el-input v-model="form.name" placeholder="请输入资源名称"></el-input>
           </el-form-item>
-          <el-form-item label="活动区域">
-            <el-select v-model="formInline.region" placeholder="活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+          <el-form-item label="资源路径">
+            <el-input v-model="form.url" placeholder="请输入资源路径"></el-input>
+          </el-form-item>
+          <el-form-item label="资源分类">
+            <el-select v-model="form.categoryId" placeholder="选择资源分类">
+              <el-option
+                v-for="item in categoryIdlist"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -17,7 +23,9 @@
           </el-form-item>
         </el-form>
       </div>
-      <div>
+      <!-- 添加资源菜单 -->
+       <el-button @click="$router.push({ name: 'create-resource' })">添加菜单</el-button>
+      <!-- 显示资源列表信息 -->
         <el-table :data="resourceData" style="width: 100%">
           <el-table-column
             prop="date"
@@ -56,42 +64,111 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
+      <!-- 添加分页 -->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="form.current"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="10"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalCount">
+      </el-pagination>
     </el-card>
   </div>
 </template>
 <script>
-import { getresourceList } from '@/services/resource'
+import { getresourceList, getResourceCategoryId, deleteResource } from '@/services/resource'
 export default {
   name: 'ListIndex',
   data () {
     return {
-      formInline: {
-        user: '',
-        region: ''
+      form: {
+        // 当前页号
+        current: 1,
+        // 每页条数，设置10条
+        size: 10,
+        // 资源名称名称
+        name: '',
+        // 分类categoryId
+        categoryId: '',
+        // 资源路径
+        url: ''
       },
+      // 存储资源分类信息
+      categoryIdlist: [],
+      // 设置总条数
+      totalCount: 0,
       resourceData: []
     }
   },
   created () {
+    // 加载资源列表信息
     this.loadReasource()
+    // 加载资源分类信息
+    this.loadReasourceCategory()
   },
   methods: {
     onSubmit () {
-      console.log('submit!')
+      // 将当前页号恢复到1
+      this.form.current = 1
+      this.loadReasource()
+    },
+    // 资源分类信息
+    async loadReasourceCategory () {
+      const { data } = await getResourceCategoryId()
+      this.categoryIdlist = data.data
+    },
+    // 随着条数改变，页数随之改变
+    handleSizeChange (val) {
+      // 将val同步给size
+      this.form.size = val
+      this.current = 1
+      this.loadReasource()
+    },
+    // 随着页数变化时触发
+    handleCurrentChange (val) {
+      this.form.current = val
+      this.loadReasource()
     },
     // 加载资源列表信息
     async loadReasource () {
-      const { data } = await getresourceList({})
+      const { data } = await getresourceList(this.form)
       if (data.code === '000000') {
         this.resourceData = data.data.records
+        this.totalCount = data.data.total
       }
-      console.log(data)
     },
     // 编辑资源功能
-    handleEdit () {},
+    handleEdit (rowDate) {
+      this.$router.push({
+        name: 'resource-edit',
+        params: {
+          id: rowDate.id
+        }
+      })
+    },
     // 删除资源功能
-    handleDelete () {}
+    handleDelete (rowDate) {
+      this.$confirm('确定删除资源信息吗', '资源删除', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(async () => {
+          const { data } = await deleteResource(rowDate.id)
+          if (data.code === '000000') {
+            this.$message.success('删除成功')
+            this.loadReasource()
+          }
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+    }
   },
   filters: {
     dateFilter (date) {
@@ -103,4 +180,7 @@ export default {
 }
 </script>
 <style lang="scss">
+  .el-pagination {
+    padding-top: 20px;
+  }
 </style>

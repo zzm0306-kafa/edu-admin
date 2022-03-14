@@ -42,9 +42,20 @@ const routes = [
         component: () => import(/* webpackChunkName: 'menu' */'@/views/menu/edit')
       },
       {
+        path: '/resource/:id/edit',
+        name: 'resource-edit',
+        component: () => import(/* webpackChunkName: 'resource' */'@/views/resource/edit')
+      },
+      {
         path: '/resource',
         name: 'resource',
         component: () => import(/* webpackChunkName: 'resource' */'@/views/resource/index')
+      },
+      // 添加资源菜单
+      {
+        path: '/resource/create-resource',
+        name: 'create-resource',
+        component: () => import(/* webpackChunkName: 'resource' */'@/views/resource/create')
       },
       {
         path: '/course',
