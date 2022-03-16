@@ -63,6 +63,12 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入资源名称', trigger: 'blur' }
+        ],
+        url: [
+          { required: true, message: '请输入资源路径', trigger: 'blur' }
+        ],
+        description: [
+          { required: true, message: '请输入资源介绍', trigger: 'blur' }
         ]
       }
     }

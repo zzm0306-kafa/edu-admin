@@ -1,12 +1,15 @@
 <template>
   <div class="role">
-      角色管理
+      <role-list></role-list>
   </div>
 </template>
-
 <script>
+import RoleList from './components/List'
 export default {
-  name: 'RoleIndex'
+  name: 'RoleIndex',
+  components: {
+    RoleList
+  }
 }
 </script>
 <style lang="scss" scoped></style>

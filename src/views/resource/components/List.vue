@@ -2,15 +2,28 @@
   <div class="resource-list">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <el-form :inline="true" :model="form" class="demo-form-inline">
-          <el-form-item label="资源名称">
-            <el-input v-model="form.name" placeholder="请输入资源名称"></el-input>
+        <el-form
+          :inline="true"
+          :model="form"
+          ref="form"
+          class="demo-form-inline">
+          <el-form-item label="资源名称" prop="name">
+            <el-input
+              v-model="form.name"
+              clearable
+              placeholder="请输入资源名称"></el-input>
           </el-form-item>
-          <el-form-item label="资源路径">
-            <el-input v-model="form.url" placeholder="请输入资源路径"></el-input>
+          <el-form-item label="资源路径" prop="url">
+            <el-input
+              v-model="form.url"
+              clearable
+              placeholder="请输入资源路径"></el-input>
           </el-form-item>
-          <el-form-item label="资源分类">
-            <el-select v-model="form.categoryId" placeholder="选择资源分类">
+          <el-form-item label="资源分类" prop="categoryId">
+            <el-select
+              v-model="form.categoryId"
+              clearable
+              placeholder="选择资源分类">
               <el-option
                 v-for="item in categoryIdlist"
                 :key="item.id"
@@ -19,14 +32,27 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">查询</el-button>
+            <el-button
+              @click="onReset"
+            >重置
+            </el-button>
+            <el-button
+              type="primary"
+              :disabled="loading"
+              @click="onSubmit">查询</el-button>
           </el-form-item>
         </el-form>
       </div>
       <!-- 添加资源菜单 -->
-       <el-button @click="$router.push({ name: 'create-resource' })">添加菜单</el-button>
+      <el-button @click="$router.push({ name: 'create-resource' })">添加菜单</el-button>
       <!-- 显示资源列表信息 -->
-        <el-table :data="resourceData" style="width: 100%">
+        <el-table
+          :data="resourceData"
+          v-loading="loading"
+          element-loading-text="拼命加载中"
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
+          style="width: 100%">
           <el-table-column
             prop="date"
             label="编号"
@@ -66,6 +92,7 @@
         </el-table>
       <!-- 添加分页 -->
       <el-pagination
+        :disabled="loading"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="form.current"
@@ -99,7 +126,9 @@ export default {
       categoryIdlist: [],
       // 设置总条数
       totalCount: 0,
-      resourceData: []
+      resourceData: [],
+      // 数据加载显示
+      loading: false
     }
   },
   created () {
@@ -109,6 +138,10 @@ export default {
     this.loadReasourceCategory()
   },
   methods: {
+    // 清空搜索表单内容
+    onReset () {
+      this.$refs.form.resetFields()
+    },
     onSubmit () {
       // 将当前页号恢复到1
       this.form.current = 1
@@ -133,10 +166,12 @@ export default {
     },
     // 加载资源列表信息
     async loadReasource () {
+      this.loading = true
       const { data } = await getresourceList(this.form)
       if (data.code === '000000') {
         this.resourceData = data.data.records
         this.totalCount = data.data.total
+        this.loading = false
       }
     },
     // 编辑资源功能
