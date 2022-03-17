@@ -61,9 +61,15 @@ export default {
     async onSubmit2 () {
       const { data } = await getAddRole(this.role)
       if (data.code === '000000') {
-        this.$emit('success')
-        this.$message.success('添加成功')
-        this.role = {}
+        if (this.isEdit) {
+          this.$emit('success')
+          this.$message.success('修改成功')
+          // this.role = {}
+        } else {
+          this.$emit('success')
+          this.$message.success('添加成功')
+          this.role = {}
+        }
       }
     }
   }

@@ -16,7 +16,7 @@
           <el-input v-model="form.href"></el-input>
         </el-form-item>
         <el-form-item label="上级菜单">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
+          <el-select v-model="form.parentId" placeholder="请选择活动区域">
             <!-- ⽆上级菜单选项 -->
             <el-option :value="-1" label="⽆上级菜单"></el-option>
             <el-option
@@ -124,6 +124,7 @@ export default {
       const id = this.$route.params.id || -1
       // 请求上一级菜单
       const { data } = await getMenuInfo(id)
+      console.log(data)
       if (data.code === '000000') {
         this.parentMenuList = data.data.parentMenuList
         // 检测菜单数据是否存在menuInfo,如果有将数据传给form
