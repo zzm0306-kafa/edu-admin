@@ -38,3 +38,21 @@ export const getMenuNodeList = () => {
     url: '/boss/menu/getMenuNodeList'
   })
 }
+// 给角色分配菜单
+export const allocateRole = data => {
+  return request({
+    method: 'post',
+    url: '/boss/menu/allocateRoleMenus',
+    data
+  })
+}
+// 获取角色拥有的菜单列表
+export const getRoleMenu = roleId => {
+  return request({
+    method: 'get',
+    url: '/boss/menu/getRoleMenus',
+    params: {
+      roleId
+    }
+  })
+}

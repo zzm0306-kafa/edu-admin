@@ -55,7 +55,6 @@ export default {
         .then(async () => {
           // 这个根据id值删除，是通过scope.row来传递的
           const { data } = await deleteOneMenu(rowData.id)
-          console.log(data)
           if (data.code === '000000') {
             this.$message.success('删除成功')
             this.loadAllMenu()

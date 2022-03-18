@@ -16,3 +16,19 @@ export const getUser = () => {
     url: '/front/user/getInfo'
   })
 }
+// 用户分页列表信息
+export const getUserPagesInfo = data => {
+  return request({
+    method: 'post',
+    url: '/boss/user/getUserPages',
+    data
+  })
+}
+// 禁用用户
+export const setforbidUser = data => {
+  return request({
+    method: 'post',
+    url: '/boss/user/forbidUser',
+    data
+  })
+}
