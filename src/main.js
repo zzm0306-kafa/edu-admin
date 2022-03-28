@@ -10,7 +10,6 @@ import './styles/index.scss'
 // 注册ElementUl
 Vue.use(ElementUI)
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,

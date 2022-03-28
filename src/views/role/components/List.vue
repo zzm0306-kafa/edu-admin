@@ -14,7 +14,7 @@
         </el-form>
       </div>
       <!-- 添加菜单 -->
-      <el-button @click="handleAdd">添加技术</el-button>
+      <el-button @click="handleAdd">添加菜单</el-button>
       <!-- 角色列表展示 -->
       <el-table
         :data="roleData"
@@ -47,6 +47,12 @@
               >分配菜单</el-button>
               <el-button
                 type="text"
+                @click="$router.push({
+                  name: 'alloc-resource',
+                  params: {
+                    roleId: scope.row.id
+                  }
+                })"
               >分配资源</el-button>
             </div>
             <div>

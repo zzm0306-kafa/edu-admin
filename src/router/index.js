@@ -34,6 +34,12 @@ const routes = [
         props: true
       },
       {
+        path: '/role/:roleId/alloc-resource',
+        name: 'alloc-resource',
+        component: () => import(/* webpackChunkName: 'alloc-menu' */'@/views/role/alloc-resource'),
+        props: true
+      },
+      {
         path: '/menu',
         name: 'menu',
         component: () => import(/* webpackChunkName: 'menu' */'@/views/menu/index')
@@ -68,6 +74,12 @@ const routes = [
         path: '/course',
         name: 'course',
         component: () => import(/* webpackChunkName: 'course' */'@/views/course/index')
+      },
+      // 添加课程信息
+      {
+        path: '/create',
+        name: 'create-course',
+        component: () => import(/* webpackChunkName: 'create-course' */'@/views/course/create')
       },
       {
         path: '/user',

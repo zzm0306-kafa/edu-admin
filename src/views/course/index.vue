@@ -1,11 +1,15 @@
 <template>
   <div class="course">
-     课程页面
+    <coures-list></coures-list>
   </div>
 </template>
 <script>
+import CouresList from './components/List'
 export default {
-  name: 'CourseIndex'
+  name: 'CourseIndex',
+  components: {
+    CouresList
+  }
 }
 </script>
 <style lang="scss" scoped></style>
