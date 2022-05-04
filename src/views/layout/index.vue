@@ -27,7 +27,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .el-container {
   height: 100vh;
   min-width: 980px;

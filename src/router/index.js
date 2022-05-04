@@ -24,7 +24,8 @@ const routes = [
       {
         path: '/role',
         name: 'role',
-        component: () => import(/* webpackChunkName: 'role' */'@/views/role/index')
+        component: () => import(/* webpackChunkName: 'role' */'@/views/role/index'),
+        meta: { title: '角色管理' }
       },
       // 添加菜单分配
       {
@@ -73,7 +74,22 @@ const routes = [
       {
         path: '/course',
         name: 'course',
-        component: () => import(/* webpackChunkName: 'course' */'@/views/course/index')
+        component: () => import(/* webpackChunkName: 'course' */'@/views/course/index'),
+        meta: { title: '课程管理' }
+      },
+      // 编辑课程信息
+      {
+        path: '/course:courseId/edit',
+        name: 'course-edit',
+        component: () => import(/* webpackChunkName: 'course' */'@/views/course/edit'),
+        props: true
+      },
+      // 内容编辑
+      {
+        path: '/course:courseId/section',
+        name: 'course-section',
+        component: () => import(/* webpackChunkName: 'course' */'@/views/course/section'),
+        props: true
       },
       // 添加课程信息
       {
@@ -84,7 +100,8 @@ const routes = [
       {
         path: '/user',
         name: 'user',
-        component: () => import(/* webpackChunkName: 'user' */'@/views/user/index')
+        component: () => import(/* webpackChunkName: 'user' */'@/views/user/index'),
+        meta: { title: '用户管理' }
       },
       {
         path: '/advert',

@@ -52,7 +52,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .btn {
   margin: 20px;
 }

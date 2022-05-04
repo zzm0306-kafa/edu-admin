@@ -33,6 +33,7 @@ export default {
     value: {
       type: String
     },
+    // 图片大小
     limit: {
       type: Number,
       default: 2
@@ -80,7 +81,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .btn .el-button {
   margin-left: 90%;
 }

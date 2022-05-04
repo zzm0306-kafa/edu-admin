@@ -52,7 +52,7 @@ export default {
   name: 'AppAside'
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .app-aside {
   height: 100%;
   .el-meun {

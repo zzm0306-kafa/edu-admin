@@ -33,6 +33,13 @@ export const uploadCourse = (data, onUploadProgress) => {
     onUploadProgress
   })
 }
-// (event) {
-//   console.log(event.total, event.loaded)
-// }
+// 通过课程Id获取课程信息
+export const getCourseById = courseId => {
+  return request({
+    method: 'get',
+    url: '/boss/course/getCourseById',
+    params: {
+      courseId
+    }
+  })
+}

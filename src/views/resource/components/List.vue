@@ -214,7 +214,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   .el-pagination {
     padding-top: 20px;
   }

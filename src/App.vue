@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view/>
   </div>
 </template>
 <script>
@@ -14,6 +14,24 @@
 // })
 export default {
   name: 'App'
+  // provide () {
+  //   return {
+  //     reload: this.reload
+  //   }
+  // },
+  // data () {
+  //   return {
+  //     isReouterAlive: true
+  //   }
+  // },
+  // methods: {
+  //   reload () {
+  //     this.isReouterAlive = false
+  //     this.$nextTick(function () {
+  //       this.isReouterAlive = true
+  //     })
+  //   }
+  // }
 }
 </script>
 <style lang="scss"></style>

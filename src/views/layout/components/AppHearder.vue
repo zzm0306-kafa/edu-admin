@@ -3,11 +3,9 @@
     <!-- 头部header导航栏 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/role' }">权限管理</el-breadcrumb-item>
-      <el-breadcrumb-item>课程管理</el-breadcrumb-item>
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>广告管理</el-breadcrumb-item>
+      <el-breadcrumb-item v-for="(item,index) in $route.meta" :key="index">{{item}}</el-breadcrumb-item>
     </el-breadcrumb>
+    <!-- <h3 v-for="(item,index) in $route.meta" :key="index">{{item}}</h3> -->
     <!-- 下拉列表信息 -->
     <el-dropdown>
       <span class="el-dropdown-link">
@@ -70,7 +68,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .app-header {
   height: 100%;
   display: flex;

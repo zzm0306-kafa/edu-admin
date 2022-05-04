@@ -21,7 +21,7 @@
         </el-form-item>
         <el-form-item>
           <el-button :disabled="isLoading" @click="handleReset">重置</el-button>
-          <el-button type="primary" @click="onSubmit" icon="el-icon-search">查询</el-button>
+          <el-button :disabled="isLoading" type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -107,6 +107,7 @@
 <script>
 import { getQueryCourses, changeCourse } from '@/services/course'
 export default {
+  // inject: ['reload'],
   name: 'CouresList',
   data () {
     return {
@@ -173,5 +174,5 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 </style>
